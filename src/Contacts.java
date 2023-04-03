@@ -1,4 +1,13 @@
 public class Contacts {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private String firstName;
     private String lastName;
     private String address;
@@ -80,7 +89,8 @@ public class Contacts {
     }
 
 
-    public Contacts(String f, String l, String a, String c, String s, int z, long p, String e) {
+    public Contacts(int id,String f, String l, String a, String c, String s, int z, long p, String e) {
+        this.id=id;
         this.firstName = f;
         this.lastName = l;
         this.address = a;
