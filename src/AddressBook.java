@@ -15,51 +15,52 @@ public class AddressBook{
 
     HashMap<String, Contacts> AddressBook = new HashMap<>();
     Scanner sc = new Scanner(System.in);
-    public void addContact() throws Exception{
+    public void addContact() throws Exception {
         System.out.print("Enter First name: ");
         String firstName = sc.nextLine();
+        if (!AddressBook.containsKey(firstName)) {
+            System.out.print("Enter Last name: ");
+            String lastName = sc.nextLine();
 
-        System.out.print("Enter Last name: ");
-        String lastName = sc.nextLine();
+            System.out.print("Enter Address: ");
+            String address = sc.nextLine();
 
-        System.out.print("Enter Address: ");
-        String address = sc.nextLine();
+            System.out.print("Enter City: ");
+            String city = sc.nextLine();
 
-        System.out.print("Enter City: ");
-        String city = sc.nextLine();
+            System.out.print("Enter State: ");
+            String state = sc.nextLine();
 
-        System.out.print("Enter State: ");
-        String state = sc.nextLine();
+            System.out.print("Enter pin-code: ");
+            String pin = sc.nextLine();
+            //try{
+            //    checkPinCode(pin);
+            // }catch (Exception e){
+            //     throw new Exception("Zip code not valid");
+            //  }
 
-        System.out.print("Enter pin-code: ");
-        String pin = sc.nextLine();
-        //try{
-        //    checkPinCode(pin);
-       // }catch (Exception e){
-       //     throw new Exception("Zip code not valid");
-      //  }
+            System.out.print("Enter Phone Number: ");
+            long phoneNumber = sc.nextLong();
+            sc.nextLine();
+            try {
+                checkPhoneNumber(phoneNumber);
+            } catch (Exception e) {
+                throw new Exception("Phone Number not valid");
+            }
 
-        System.out.print("Enter Phone Number: ");
-        long phoneNumber = sc.nextLong();
-        sc.nextLine();
-        try {
-            checkPhoneNumber(phoneNumber);
+            System.out.print("Enter Email: ");
+            String email = sc.nextLine();
+            try {
+                checkMail(email);
+            } catch (Exception e) {
+                throw new Exception("Email not valid");
+            }
+
+            Contacts c1 = new Contacts(firstName, lastName, address, city, state, pin, phoneNumber, email);
+            AddressBook.put(firstName, c1);
+        }else {
+            System.out.println("Contact with the same name already exist");
         }
-        catch (Exception e){
-            throw new Exception("Phone Number not valid");
-        }
-
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine();
-        try {
-            checkMail(email);
-        }
-        catch (Exception e){
-            throw new Exception("Email not valid");
-        }
-
-        Contacts c1 = new Contacts(firstName, lastName, address, city, state, pin, phoneNumber, email);
-        AddressBook.put(firstName,c1);
     }
 
     public void updateContact() throws Exception{
