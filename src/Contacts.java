@@ -1,20 +1,11 @@
-public class Contacts {
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    private int id;
+public class Contacts<String>{
     private String firstName;
     private String lastName;
     private String address;
     private String city;
     private String state;
-    private int zip;
-    private long phoneNumber;
+    private String zip;
+    private String phoneNumber;
     private String email;
 
 
@@ -42,12 +33,12 @@ public class Contacts {
         return state;
     }
 
-    public int getZip() {
+    public String getZip() {
 
         return zip;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
 
         return phoneNumber;
     }
@@ -76,11 +67,11 @@ public class Contacts {
         this.state = state;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -89,8 +80,7 @@ public class Contacts {
     }
 
 
-    public Contacts(int id,String f, String l, String a, String c, String s, int z, long p, String e) {
-        this.id=id;
+    public Contacts(String f, String l, String a, String c, String s, String z, String p, String e) {
         this.firstName = f;
         this.lastName = l;
         this.address = a;
@@ -101,7 +91,7 @@ public class Contacts {
         this.email = e;
 
     }
-    public String toString(){
+    public java.lang.String toString(){
         return (
                 "First Name : " + getFirstName() + "; Last Name :  " + getLastName() + "; Address : " + getAddress() + "; City : "+ getCity()+ "; State : " + getState() + "; Zip : " + getZip() + "; PhoneNumber : " + getPhoneNumber() + "; Email : "+ getEmail()
         );

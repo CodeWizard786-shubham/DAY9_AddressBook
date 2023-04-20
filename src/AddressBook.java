@@ -1,14 +1,21 @@
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.lang.Exception;
 
 public class AddressBook{
-    HashMap<Integer, Contacts> AddressBook = new HashMap<>();
-    Scanner sc = new Scanner(System.in);
+    String addressBookName;
+    public AddressBook(String name) {
+        this.addressBookName = name;
+    }
 
-    public void addContact() {
-        System.out.print("Enter Id: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+    public String getName() {
+        return addressBookName;
+    }
+
+    HashMap<String, Contacts> AddressBook = new HashMap<>();
+    Scanner sc = new Scanner(System.in);
+    public void addContact() throws Exception{
         System.out.print("Enter First name: ");
         String firstName = sc.nextLine();
 
@@ -24,25 +31,42 @@ public class AddressBook{
         System.out.print("Enter State: ");
         String state = sc.nextLine();
 
-        System.out.print("Enter Zip: ");
-        int zip = sc.nextInt();
+        System.out.print("Enter pin-code: ");
+        String pin = sc.nextLine();
+        //try{
+        //    checkPinCode(pin);
+       // }catch (Exception e){
+       //     throw new Exception("Zip code not valid");
+      //  }
 
         System.out.print("Enter Phone Number: ");
         long phoneNumber = sc.nextLong();
         sc.nextLine();
+        try {
+            checkPhoneNumber(phoneNumber);
+        }
+        catch (Exception e){
+            throw new Exception("Phone Number not valid");
+        }
 
         System.out.print("Enter Email: ");
         String email = sc.nextLine();
-        Contacts c1 = new Contacts(id,firstName, lastName, address, city, state, zip, phoneNumber, email);
-        AddressBook.put(id,c1);
+        try {
+            checkMail(email);
+        }
+        catch (Exception e){
+            throw new Exception("Email not valid");
+        }
+
+        Contacts c1 = new Contacts(firstName, lastName, address, city, state, pin, phoneNumber, email);
+        AddressBook.put(firstName,c1);
     }
 
-    public void updateContact() {
-        System.out.print("Enter the id of the contact to be changed: ");
-        Integer id = sc.nextInt();
+    public void updateContact() throws Exception{
+        System.out.print("Enter the FirstName of the contact to be changed: ");
+        String firstName1 = sc.nextLine();
         sc.nextLine();
-        for (Integer contact : AddressBook.keySet()) {
-            if (AddressBook.containsKey(id)) {
+            if (AddressBook.containsKey(firstName1)) {
                 System.out.print("Enter First name: ");
                 String firstName = sc.nextLine();
 
@@ -59,15 +83,27 @@ public class AddressBook{
                 String state = sc.nextLine();
 
                 System.out.print("Enter Zip: ");
-                int zip = sc.nextInt();
+                String zip = sc.nextLine();
 
                 System.out.print("Enter Phone Number: ");
                 long phoneNumber = sc.nextLong();
                 sc.nextLine();
+                try {
+                    checkPhoneNumber(phoneNumber);
+                }
+                catch (Exception e){
+                    throw new Exception("Phone Number not valid");
+                }
 
-                System.out.print("Enter Email:");
+                System.out.print("Enter Email: ");
                 String email = sc.nextLine();
-                Contacts c1=AddressBook.get(id);
+                try {
+                    checkMail(email);
+                }
+                catch (Exception e){
+                    throw new Exception("Email not valid");
+                }
+                Contacts c1=AddressBook.get(firstName);
                 c1.setFirstName(firstName);
                 c1.setLastName(lastName);
                 c1.setAddress(address);
@@ -76,33 +112,67 @@ public class AddressBook{
                 c1.setZip(zip);
                 c1.setPhoneNumber(phoneNumber);
                 c1.setEmail(email);
-                AddressBook.put(id,c1);
+                AddressBook.put(firstName,c1);
                 System.out.println("Contact Updated");
             }else{
-                System.out.println("Contact not found: " + id);
+                System.out.println("Contact not found: " + firstName1);
             }
         }
-    }
 
-    public void removeContact() {
-        System.out.print("Enter the Id of the contact to be removed: ");
-        int id = sc.nextInt();
-        if (AddressBook.containsKey(id)) {
-            AddressBook.remove(id);
-            System.out.println("Contact removed: " + id);
+    public void removeContact()throws Exception {
+        System.out.print("Enter the FirstName of the contact to be changed: ");
+        String firstName1 = sc.nextLine();
+        if (AddressBook.containsKey(firstName1)) {
+            AddressBook.remove(firstName1);
+            System.out.println("Contact removed: " + firstName1);
         } else {
-            System.out.println("Contact not found: " + id);
+            System.out.println("Contact not found: " + firstName1);
         }
     }
-    public void printContact() {
-        System.out.println("Address Book:");
+    public void printContact() throws Exception{
+        System.out.println("AddressBook Contacts:");
         if (AddressBook.isEmpty()) {
             System.out.println("Address Book is empty");
         } else {
-            for (Integer id : AddressBook.keySet()) {
-                System.out.println(id + " - " + AddressBook.get(id));
+            for (String firstName : AddressBook.keySet()) {
+                System.out.println(AddressBook.get(firstName));
             }
         }
     }
+    public long checkPhoneNumber(long phoneNumber) throws Exception{
+        String phoneNumberPattern="^[6-9]\\d{2}[\\s-]?\\d{3}[\\s-]?\\d{4}$";
+        String phoneNumberValidation=Long.toString(phoneNumber);
+        boolean b =Pattern.matches(phoneNumberPattern,phoneNumberValidation);
+        if (!b) {
+            throw new RuntimeException();
+        }
+        return phoneNumber;
+    }
+    public String checkMail(String email) throws Exception{
+            String emailValidation="^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+            boolean b =Pattern.matches(emailValidation,email);
+            if (!b) {
+                throw new RuntimeException();
+            }
+            return email;
+    }
+    public String checkPinCode(String zipcode){
+        String pinCodePattern="^[1-9]{1}[0-9]{2}\\\\s{0,1}[0-9]{3}$";
+        boolean b = Pattern.matches(pinCodePattern,zipcode);
+        if(!b){
+            throw new RuntimeException();
+        }
+        return zipcode;
+    }
 
+    @Override
+    public String toString() {
+        return
+                "addressBookName='" + addressBookName + '\'' +
+                ", AddressBook=" + AddressBook +
+                '}';
+    }
 }
+
+
+
