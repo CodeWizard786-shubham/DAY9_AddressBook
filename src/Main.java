@@ -1,7 +1,20 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
+    HashMap<String,AddressBookCollection> collections=new HashMap<>();
+    Scanner sc=new Scanner(System.in);
+    public List<Contacts> searchContactAcrossMultipleAddressBooks(){
+        System.out.println("Enter State name: ");
+        String stateName= sc.nextLine();
+        return   collections.values().stream()
+                .flatMap(collection -> collection.getAddressBooks().values().stream())
+                .filter(addressBook -> addressBook.getState().equals(stateName))
+                .flatMap(addressBook -> addressBook.getContacts().values().stream())
+                .collect(Collectors.toList());
+    }
     public static void main(String[] args) throws Exception {
+        Main m1=new Main();
         AddressBookCollection addressBookCollection=new AddressBookCollection();
         Scanner sc=new Scanner(System.in);
         boolean quit = false;
@@ -19,6 +32,7 @@ public class Main {
                 break;
             case 2:
                 addressBookCollection.printAddressBooks();
+                System.out.println(m1.searchContactAcrossMultipleAddressBooks());
                 break;
             case 3:
                 addressBookCollection.removeAddressBooks();

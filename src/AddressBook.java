@@ -1,7 +1,7 @@
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.lang.Exception;
+import java.util.stream.Collectors;
 
 public class AddressBook{
     String addressBookName;
@@ -12,7 +12,9 @@ public class AddressBook{
     public String getName() {
         return addressBookName;
     }
-
+    public Map<String, Contacts> getAddressBook() {
+        return AddressBook;
+    }
     HashMap<String, Contacts> AddressBook = new HashMap<>();
     Scanner sc = new Scanner(System.in);
     public void addContact() throws Exception {
@@ -33,11 +35,11 @@ public class AddressBook{
 
             System.out.print("Enter pin-code: ");
             String pin = sc.nextLine();
-            //try{
-            //    checkPinCode(pin);
-            // }catch (Exception e){
-            //     throw new Exception("Zip code not valid");
-            //  }
+            try{
+                 checkPinCode(pin);
+             }catch (Exception e){
+                 throw new Exception("Zip code not valid");
+              }
 
             System.out.print("Enter Phone Number: ");
             long phoneNumber = sc.nextLong();
@@ -65,11 +67,10 @@ public class AddressBook{
 
     public void updateContact() throws Exception{
         System.out.print("Enter the FirstName of the contact to be changed: ");
-        String firstName1 = sc.nextLine();
-        sc.nextLine();
-            if (AddressBook.containsKey(firstName1)) {
+        String firstName = sc.nextLine();
+            if (AddressBook.containsKey(firstName)) {
                 System.out.print("Enter First name: ");
-                String firstName = sc.nextLine();
+                String firstName1 = sc.nextLine();
 
                 System.out.print("Enter Last name: ");
                 String lastName = sc.nextLine();
@@ -105,7 +106,7 @@ public class AddressBook{
                     throw new Exception("Email not valid");
                 }
                 Contacts c1=AddressBook.get(firstName);
-                c1.setFirstName(firstName);
+                c1.setFirstName(firstName1);
                 c1.setLastName(lastName);
                 c1.setAddress(address);
                 c1.setCity(city);
@@ -116,7 +117,7 @@ public class AddressBook{
                 AddressBook.put(firstName,c1);
                 System.out.println("Contact Updated");
             }else{
-                System.out.println("Contact not found: " + firstName1);
+                System.out.println("Contact not found: " + firstName);
             }
         }
 
@@ -140,6 +141,12 @@ public class AddressBook{
             }
         }
     }
+    public List<Contacts> searchContactAcrossMultipleAddressBooks(){
+        System.out.println("Enter State name: ");
+        String stateName= sc.nextLine();
+        List<Contacts>l1=AddressBook.values().stream().filter(addressBook -> addressBook.getState().equals(stateName)).collect(Collectors.toList());
+        return l1;
+    }
     public long checkPhoneNumber(long phoneNumber) throws Exception{
         String phoneNumberPattern="^[6-9]\\d{2}[\\s-]?\\d{3}[\\s-]?\\d{4}$";
         String phoneNumberValidation=Long.toString(phoneNumber);
@@ -158,7 +165,7 @@ public class AddressBook{
             return email;
     }
     public String checkPinCode(String zipcode){
-        String pinCodePattern="^[1-9]{1}[0-9]{2}\\\\s{0,1}[0-9]{3}$";
+        String pinCodePattern="[1-9]{1}[0-9]{2}[0-9]{3}$";
         boolean b = Pattern.matches(pinCodePattern,zipcode);
         if(!b){
             throw new RuntimeException();
@@ -169,9 +176,13 @@ public class AddressBook{
     @Override
     public String toString() {
         return
-                "addressBookName='" + addressBookName + '\'' +
-                ", AddressBook=" + AddressBook +
-                '}';
+                "AddressBookContacts->" + AddressBook;
+    }
+    public Contacts getState(){
+        return AddressBook.get(getState());
+    }
+    public Map<String,Contacts> getContacts() {
+        return AddressBook;
     }
 }
 

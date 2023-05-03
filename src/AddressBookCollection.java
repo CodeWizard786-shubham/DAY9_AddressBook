@@ -1,8 +1,10 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookCollection {
     HashMap<String,AddressBook> addressBooks =new HashMap<>();
     Scanner sc = new Scanner(System.in);
+
     public void addAddressBooks() throws Exception {
         System.out.println("Enter AddressBook Name: ");
         String addressBookName = sc.next();
@@ -40,7 +42,19 @@ public class AddressBookCollection {
                         contact.removeContact();
                         break;
                     case 4:
-                        contact.printContact();
+                        System.out.println("1.Print all contacts\n2.Print by state");
+                        System.out.println("Enter choice");
+                        int choice= sc.nextInt();
+                        switch (choice){
+                            case 1:
+                                contact.printContact();
+                                break;
+                            case 2:
+                                System.out.println(contact.searchContactAcrossMultipleAddressBooks());
+                                break;
+                            default:
+                                System.out.println("Invalid choice");
+                        }
                         break;
                     case 5:
                         quit = true;
@@ -51,9 +65,8 @@ public class AddressBookCollection {
             }
         }
     }
-
     public void printAddressBooks() {
-        addressBooks.forEach((k,v)-> System.out.println("AddressBook Name->"+k+"\n"+"Contacts->"+v));
+        addressBooks.forEach((k,v)-> System.out.println("AddressBook Name->"+k+"\n"+v));
     }
 
     public void removeAddressBooks() {
@@ -66,4 +79,10 @@ public class AddressBookCollection {
             System.out.println("AddressBook Not found: ");
         }
     }
+
+    public Map<String, AddressBook> getAddressBooks() {
+        return addressBooks;
+    }
+
+
 }

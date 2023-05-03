@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.List;
+
 public class Contacts<String>{
     private String firstName;
     private String lastName;
@@ -93,9 +96,8 @@ public class Contacts<String>{
     }
     public java.lang.String toString(){
         return (
-                "First Name : " + getFirstName() + "; Last Name :  " + getLastName() + "; Address : " + getAddress() + "; City : "+ getCity()+ "; State : " + getState() + "; Zip : " + getZip() + "; PhoneNumber : " + getPhoneNumber() + "; Email : "+ getEmail()
+                "First Name : " + getFirstName() + "; Last Name :  " + getLastName() + "; Address : " + getAddress() + "; City : "+ getCity()+ "; State : " + getState() + "; Zip : " + getZip() + "; PhoneNumber : " + getPhoneNumber() + "; Email : "+ getEmail()+"\n"
         );
     }
-
 }
 
